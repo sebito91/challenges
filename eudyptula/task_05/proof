@@ -1,0 +1,33 @@
+[   70.573387] usb 1-2: new low-speed USB device number 4 using xhci_hcd
+[   70.750130] usb 1-2: New USB device found, idVendor=03f0, idProduct=0324
+[   70.750140] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[   70.750145] usb 1-2: Product: HP Basic USB Keyboard
+[   70.750149] usb 1-2: Manufacturer: Lite-On Technology Corp.
+[   70.759159] input: Lite-On Technology Corp. HP Basic USB Keyboard as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:03F0:0324.0002/input/input21
+[   70.811529] hid-generic 0003:03F0:0324.0002: input,hidraw1: USB HID v1.10 Keyboard [Lite-On Technology Corp. HP Basic USB Keyboard] on usb-0000:00:14.0-2/input0
+[   70.835246] usbcore: registered new interface driver hello_kb_driver
+[   70.835250] registered hello_kb_driver
+[  102.857903] systemd-journald[726]: Sent WATCHDOG=1 notification.
+[  102.861049] systemd-journald[726]: Successfully sent stream file descriptor to service manager.
+[  107.144780] usb 1-2: USB disconnect, device number 4
+[  118.010210] usbcore: deregistering interface driver hello_kb_driver
+[  118.010257] deregistered hello_kb_driver
+[  125.188934] usb 1-2: new low-speed USB device number 5 using xhci_hcd
+[  125.365843] usb 1-2: New USB device found, idVendor=03f0, idProduct=0324
+[  125.365850] usb 1-2: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+[  125.365853] usb 1-2: Product: HP Basic USB Keyboard
+[  125.365856] usb 1-2: Manufacturer: Lite-On Technology Corp.
+[  125.370506] input: Lite-On Technology Corp. HP Basic USB Keyboard as /devices/pci0000:00/0000:00:14.0/usb1/1-2/1-2:1.0/0003:03F0:0324.0003/input/input22
+[  125.422622] hid-generic 0003:03F0:0324.0003: input,hidraw1: USB HID v1.10 Keyboard [Lite-On Technology Corp. HP Basic USB Keyboard] on usb-0000:00:14.0-2/input0
+[  125.447051] usbcore: registered new interface driver hello_kb_driver
+
+[sborza@msandn]:~$ sudo lsmod | grep hello
+hello                  16384  0
+[sborza@msandn]:~$ sudo modinfo hello
+filename:       /lib/modules/4.10.14-100.fc24.x86_64/kernel/drivers/usb/misc/hello.ko.xz
+author:         931ce5c4a04d
+license:        GPL
+alias:          usb:v*p*d*dc*dsc*dp*ic03isc01ip01in*
+depends:
+vermagic:       4.10.14-100.fc24.x86_64 SMP mod_unload
+[sborza@msandn]:~$
