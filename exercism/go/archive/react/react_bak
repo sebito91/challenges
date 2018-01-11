@@ -1,0 +1,160 @@
+// Package react implements a 'reactive' system with cells
+package react
+
+const testVersion = 5
+
+type writeFunc func(int) int
+type writeFuncDual func(int, int) int
+
+// React is the default instance of the Reactor
+type React struct{}
+
+// CellData struct is our base layer to actually store info
+type CellData struct {
+	*cell
+}
+
+// cell is the private version of our primary Cell interface
+type cell struct {
+	data int
+	cb   []func()
+	wf   writeFunc
+	wfd  writeFuncDual
+}
+
+// ICD inherits from Cell
+type ICD struct {
+	CellData
+}
+
+// CCD inherits from Cell
+type CCD struct {
+	ICD
+	a Cell
+	b Cell
+}
+
+// Cancel is the default struct for closing out data
+type Cancel struct {
+	ccd  CCD
+	elem int
+}
+
+// New returns an instance of the React struct
+func New() Reactor {
+	var r Reactor = React{}
+	return r
+}
+
+// CreateInput is a method bound to React struct
+func (r React) CreateInput(in int) InputCell {
+	return ICD{CellData: CellData{&cell{data: in}}}
+}
+
+// CreateCompute1 is a method bound to React struct, takes one input and adds to a Cell
+func (r React) CreateCompute1(a Cell, fun func(int) int) ComputeCell {
+	c := r.CreateInput(fun(a.Value()))
+	c.(ICD).wf = fun
+	return CCD{ICD: c.(ICD), a: a}
+}
+
+// CreateCompute2 is a method bound to Reach struct, takes two inputs and adds to two Cells
+func (r React) CreateCompute2(a, b Cell, fun func(int, int) int) ComputeCell {
+	c := r.CreateInput(fun(a.Value(), b.Value()))
+	c.(ICD).wfd = fun
+	return CCD{c.(ICD), a, b}
+}
+
+// SetValue is a method bound to ICD that will actually set the value of a CellData
+func (i ICD) SetValue(in int) {
+	if in == i.data {
+		return
+	}
+
+	i.data = in
+	if len(i.cb) > 0 {
+		for _, each := range i.cb {
+			if each != nil {
+				each()
+			}
+		}
+	}
+}
+
+// Value is a bound method for the ComputeCell instead
+func (c CCD) Value() int {
+	if c.wfd != nil {
+		c.data = c.wfd(c.a.Value(), c.b.Value())
+	} else if c.wf != nil {
+		c.data = c.wf(c.a.Value())
+	}
+
+	return c.data
+}
+
+// Value is the bound method to CellData to return the contents
+func (c CellData) Value() int {
+	return c.data
+}
+
+// AddCallback will append a callback function to the ComputeCell involved
+func (c CCD) AddCallback(fun func(int)) Canceler {
+	var elem int
+
+	tester := func() {
+		var items int
+		t := c.data
+		nt := c.Value()
+
+		switch c.a.(type) {
+		case ICD:
+			items = len(c.a.(ICD).cb)
+		case CCD:
+			items = len(c.a.(CCD).a.(ICD).cb)
+		}
+
+		if t != nt || items > 1 {
+			fun(nt)
+		}
+	}
+
+	if c.a != nil {
+		switch c.a.(type) {
+		case ICD:
+			c.a.(ICD).cb = append(c.a.(ICD).cb, tester)
+			elem = len(c.a.(ICD).cb)
+		case CCD:
+			if c.a.(CCD).a != nil {
+				c.a.(CCD).a.(ICD).cb = append(c.a.(CCD).a.(ICD).cb, tester)
+				elem = len(c.a.(CCD).a.(ICD).cb)
+			}
+		}
+	}
+
+	if c.b != nil {
+		switch c.b.(type) {
+		case ICD:
+			c.b.(ICD).cb = append(c.b.(ICD).cb, tester)
+			elem = len(c.b.(ICD).cb)
+		case CCD:
+			if c.b.(CCD).b != nil {
+				c.b.(CCD).b.(ICD).cb = append(c.b.(CCD).b.(ICD).cb, tester)
+				elem = len(c.b.(CCD).b.(ICD).cb)
+			}
+		}
+	}
+
+	var f Canceler = Cancel{c, elem - 1}
+	return f
+}
+
+// Cancel is the default bound method for the Canceler interface
+func (c Cancel) Cancel() {
+	if c.ccd.a != nil {
+		c.ccd.a.(ICD).cb[c.elem] = nil
+	}
+
+	if c.ccd.b != nil {
+		c.ccd.b.(ICD).cb[c.elem] = nil
+	}
+}
