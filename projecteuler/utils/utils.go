@@ -1,10 +1,13 @@
 package utils
 
-import "sort"
+import (
+	"fmt"
+	"sort"
+)
 
 var x = make(map[int]bool)
 
-// sieve is a function that implements the Sieve of Eratosthenes
+// NthPrime is a function that implements the Sieve of Eratosthenes
 // this sieve function is unique in that the input is the number of actual
 // primes to return
 //
@@ -48,4 +51,22 @@ func NthPrime(s, n, e int) sort.IntSlice {
 	}
 
 	return out
+}
+
+// IsPalindrome is a helper function to checks whether a given int value
+// is a palindrome
+func IsPalindrome(n int) bool {
+	if n < 10 && n > -10 {
+		return true
+	}
+
+	d := fmt.Sprintf("%d", n)
+	m := len(d)
+
+	for i := 0; i < m/2; i++ {
+		if d[i] != d[(m-1)-i] {
+			return false
+		}
+	}
+	return true
 }
