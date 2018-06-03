@@ -2,7 +2,6 @@
 package raindrops
 
 import (
-	"bytes"
 	"strconv"
 )
 
@@ -12,23 +11,42 @@ const testVersion = 2
 // Convert is our function to handle the input (int), and convert to a string based on whether its divisible
 // by 3, 5, 7 inclusive (or none at all)
 func Convert(theval int) string {
-	var output bytes.Buffer
+	//	var output bytes.Buffer
+	//
+	//	if (theval % 3) == 0 {
+	//		output.WriteString("Pling")
+	//	}
+	//
+	//	if (theval % 5) == 0 {
+	//		output.WriteString("Plang")
+	//	}
+	//
+	//	if (theval % 7) == 0 {
+	//		output.WriteString("Plong")
+	//	}
+	//
+	//	if output.Len() == 0 {
+	//		return strconv.Itoa(theval)
+	//	}
+	//
+	//	return output.String()
 
-	if (theval % 3) == 0 {
-		output.WriteString("Pling")
+	var out string
+	if theval%3 == 0 {
+		out += "Pling"
 	}
 
-	if (theval % 5) == 0 {
-		output.WriteString("Plang")
+	if theval%5 == 0 {
+		out += "Plang"
 	}
 
-	if (theval % 7) == 0 {
-		output.WriteString("Plong")
+	if theval%7 == 0 {
+		out += "Plong"
 	}
 
-	if output.Len() == 0 {
+	if len(out) == 0 {
 		return strconv.Itoa(theval)
 	}
 
-	return output.String()
+	return out
 }
