@@ -1,29 +1,25 @@
 package tree
 
 import (
+	"errors"
 	"fmt"
 )
 
-// Record ...
 type Record struct {
 	ID, Parent int
 }
 
-// Node ...
 type Node struct {
 	ID       int
 	Children []*Node
 }
 
-// Mismatch ...
 type Mismatch struct{}
 
-// Error ...
 func (m Mismatch) Error() string {
 	return "c"
 }
 
-// Build ...
 func Build(records []Record) (*Node, error) {
 	if len(records) == 0 {
 		return nil, nil
@@ -35,14 +31,16 @@ func Build(records []Record) (*Node, error) {
 		if len(todo) == 0 {
 			break
 		}
-		newTodo := []*Node{}
+		newTodo := []*Node(nil)
 		for _, c := range todo {
 			for _, r := range records {
 				if r.Parent == c.ID {
 					if r.ID < c.ID {
-						return nil, fmt.Errorf("a")
-					} else if r.ID == c.ID && r.ID != 0 {
-						return nil, fmt.Errorf("b")
+						return nil, errors.New("a")
+					} else if r.ID == c.ID {
+						if r.ID != 0 {
+							return nil, fmt.Errorf("b")
+						}
 					} else {
 						n++
 						switch len(c.Children) {
