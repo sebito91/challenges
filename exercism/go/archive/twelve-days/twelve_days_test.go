@@ -77,3 +77,9 @@ func TestTestVersion(t *testing.T) {
 		t.Errorf("Found testVersion = %v, want %v.", testVersion, targetTestVersion)
 	}
 }
+
+func BenchmarkSong(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		_ = Song()
+	}
+}
