@@ -17,14 +17,29 @@ type Robot struct {
 	name string
 }
 
+var names map[string]bool
+
+func (r *Robot) genName() {
+	rand.Seed(time.Now().UTC().UnixNano())
+	r.name = fmt.Sprintf("%c%c%d", charset[rand.Intn(26)], charset[rand.Intn(26)], rand.Intn(1000))
+}
+
 // Name return the new robot name
 func (r *Robot) Name() string {
+	if names == nil {
+		names = make(map[string]bool)
+	}
+
 	if len(r.name) > 1 {
 		return r.name
 	}
 
-	rand.Seed(time.Now().UTC().UnixNano())
-	r.name = fmt.Sprintf("%c%[1]c%d%[2]d%[2]d", charset[rand.Intn(26)], rand.Intn(10))
+	r.genName()
+	for names[r.name] {
+		r.genName()
+	}
+	names[r.name] = true
+
 	return r.name
 }
 
