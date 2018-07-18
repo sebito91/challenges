@@ -12,18 +12,32 @@ which means that their name gets wiped. The next time you ask, it will
 respond with a new random name.
 
 The names must be random: they should not follow a predictable sequence.
-Random names means a risk of collisions. Your solution should not allow
-the use of the same name twice when avoidable. In some exercism language
-tracks there are tests to ensure that the same name is never used twice.
+Random names means a risk of collisions. Your solution must ensure that
+every existing robot has a unique name.
+
+### Bonus exercise
+
+Once you get `go test` passing, try `go test -tags bonus`.  This uses a *build
+tag* to enable a test that wasn't previously enabled. Build tags control which
+files should be included in the package. You can read more about those at [the
+Go documentation](https://golang.org/pkg/go/build/#hdr-Build_Constraints).
+
+For this exercise it limits `go test` to only build the tests in the
+`robot_name_test.go` file. We can then include the bonus test in the
+`bonus_test.go` file with the tags flag as described above.
+
+To get the bonus test to pass you'll have to ensure a robot's name has not been
+used before.
+
 
 ## Running the tests
 
 To run the tests run the command `go test` from within the exercise directory.
 
-If the test suite contains benchmarks, you can run these with the `-bench`
-flag:
+If the test suite contains benchmarks, you can run these with the `--bench` and `--benchmem`
+flags:
 
-    go test -bench .
+    go test -v --bench . --benchmem
 
 Keep in mind that each reviewer will run benchmarks on a different machine, with
 different specs, so the results from these benchmark tests may vary.
@@ -37,6 +51,5 @@ you're having trouble, please visit the exercism.io [Go language page](http://ex
 
 A debugging session with Paul Blackwell at gSchool. [http://gschool.it](http://gschool.it)
 
-## Submitting Incomplete Problems
+## Submitting Incomplete Solutions
 It's possible to submit an incomplete solution so you can see how others have completed the exercise.
-
