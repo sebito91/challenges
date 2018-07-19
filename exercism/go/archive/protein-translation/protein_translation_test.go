@@ -68,3 +68,15 @@ func TestTestVersion(t *testing.T) {
 		t.Errorf("Found testVersion = %v, want %v.", testVersion, targetTestVersion)
 	}
 }
+
+func BenchmarkCodon(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FromCodon(codonTestCases[0].input)
+	}
+}
+
+func BenchmarkProtein(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		FromRNA(proteinTestCases[0].input)
+	}
+}
