@@ -182,38 +182,38 @@ var failureTestCases = []struct {
 			{ID: 0},
 		},
 	},
-	//	{
-	//		name: "cycle directly",
-	//		input: []Record{
-	//			{ID: 5, Parent: 2},
-	//			{ID: 3, Parent: 2},
-	//			{ID: 2, Parent: 2},
-	//			{ID: 4, Parent: 1},
-	//			{ID: 1, Parent: 0},
-	//			{ID: 0},
-	//			{ID: 6, Parent: 3},
-	//		},
-	//	},
-	//	{
-	//		name: "cycle indirectly",
-	//		input: []Record{
-	//			{ID: 5, Parent: 2},
-	//			{ID: 3, Parent: 2},
-	//			{ID: 2, Parent: 6},
-	//			{ID: 4, Parent: 1},
-	//			{ID: 1, Parent: 0},
-	//			{ID: 0},
-	//			{ID: 6, Parent: 3},
-	//		},
-	//	},
-	//	{
-	//		name: "higher id parent of lower id",
-	//		input: []Record{
-	//			{ID: 0},
-	//			{ID: 2, Parent: 0},
-	//			{ID: 1, Parent: 2},
-	//		},
-	//	},
+	{
+		name: "cycle directly",
+		input: []Record{
+			{ID: 5, Parent: 2},
+			{ID: 3, Parent: 2},
+			{ID: 2, Parent: 2},
+			{ID: 4, Parent: 1},
+			{ID: 1, Parent: 0},
+			{ID: 0},
+			{ID: 6, Parent: 3},
+		},
+	},
+	{
+		name: "cycle indirectly",
+		input: []Record{
+			{ID: 5, Parent: 2},
+			{ID: 3, Parent: 2},
+			{ID: 2, Parent: 6},
+			{ID: 4, Parent: 1},
+			{ID: 1, Parent: 0},
+			{ID: 0},
+			{ID: 6, Parent: 3},
+		},
+	},
+	{
+		name: "higher id parent of lower id",
+		input: []Record{
+			{ID: 0},
+			{ID: 2, Parent: 0},
+			{ID: 1, Parent: 2},
+		},
+	},
 }
 
 func (n Node) String() string {
