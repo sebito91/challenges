@@ -64,9 +64,6 @@ func Build(records []Record) (*Node, error) {
 			mappers[record.Parent] = &Node{ID: record.Parent, Children: []*Node{mappers[record.ID]}}
 		} else {
 			mappers[record.Parent].Children = append(mappers[record.Parent].Children, mappers[record.ID])
-			sort.Slice(mappers[record.Parent].Children, func(i, j int) bool {
-				return mappers[record.Parent].Children[i].ID < mappers[record.Parent].Children[j].ID
-			})
 		}
 	}
 
@@ -74,6 +71,12 @@ func Build(records []Record) (*Node, error) {
 		if !id {
 			return nil, fmt.Errorf("did not receive expected id: %d", idx)
 		}
+	}
+
+	for parent := range mappers {
+		sort.Slice(mappers[parent].Children, func(i, j int) bool {
+			return mappers[parent].Children[i].ID < mappers[parent].Children[j].ID
+		})
 	}
 
 	return mappers[0], nil
