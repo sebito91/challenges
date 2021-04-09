@@ -17,7 +17,7 @@ type Node struct {
 }
 
 // declare mappers to be usable across functions
-var mappers map[int][]*Node
+var mappers map[int]*Node
 
 func checkRecord(record Record, ids []bool) error {
 	if record.ID >= len(ids) || ids[record.ID] {
@@ -38,7 +38,7 @@ func checkRecord(record Record, ids []bool) error {
 
 // Build stitches together the node tree
 func Build(records []Record) (*Node, error) {
-	mappers = make(map[int][]*Node)
+	mappers = make(map[int]*Node)
 
 	if len(records) == 0 {
 		return nil, nil
@@ -52,9 +52,21 @@ func Build(records []Record) (*Node, error) {
 		}
 
 		ids[record.ID] = true
+		if _, ok := mappers[record.ID]; !ok {
+			mappers[record.ID] = &Node{ID: record.ID}
+		}
 
-		if record.ID != 0 {
-			mappers[record.Parent] = append(mappers[record.Parent], &Node{ID: record.ID})
+		if record.ID == 0 {
+			continue
+		}
+
+		if _, ok := mappers[record.Parent]; !ok {
+			mappers[record.Parent] = &Node{ID: record.Parent, Children: []*Node{mappers[record.ID]}}
+		} else {
+			mappers[record.Parent].Children = append(mappers[record.Parent].Children, mappers[record.ID])
+			sort.Slice(mappers[record.Parent].Children, func(i, j int) bool {
+				return mappers[record.Parent].Children[i].ID < mappers[record.Parent].Children[j].ID
+			})
 		}
 	}
 
@@ -64,37 +76,5 @@ func Build(records []Record) (*Node, error) {
 		}
 	}
 
-	// generate the root
-	root := &Node{}
-
-	parents := make([]int, len(mappers))
-	for parent := range mappers {
-		parents = append(parents, parent)
-		sort.Slice(mappers[parent], func(i, j int) bool {
-			return mappers[parent][i].ID < mappers[parent][j].ID
-		})
-	}
-
-	sort.Ints(parents)
-
-	for parent := range parents {
-		if parent == 0 {
-			root.Children = append(root.Children, mappers[parent]...)
-			continue
-		}
-
-		var temproot *Node
-		for _, child := range root.Children {
-			if child.ID == parent {
-				temproot = child
-				break
-			}
-		}
-
-		if temproot != nil {
-			temproot.Children = append(temproot.Children, mappers[parent]...)
-		}
-	}
-
-	return root, nil
+	return mappers[0], nil
 }
