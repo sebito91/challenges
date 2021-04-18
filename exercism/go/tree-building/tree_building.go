@@ -46,6 +46,10 @@ func Build(records []Record) (*Node, error) {
 
 	ids := make([]bool, len(records))
 
+	sort.Slice(records, func(i, j int) bool {
+		return records[i].ID < records[j].ID
+	})
+
 	for _, record := range records {
 		if err := checkRecord(record, ids); err != nil {
 			return nil, err
@@ -71,12 +75,6 @@ func Build(records []Record) (*Node, error) {
 		if !id {
 			return nil, fmt.Errorf("did not receive expected id: %d", idx)
 		}
-	}
-
-	for parent := range mappers {
-		sort.Slice(mappers[parent].Children, func(i, j int) bool {
-			return mappers[parent].Children[i].ID < mappers[parent].Children[j].ID
-		})
 	}
 
 	return mappers[0], nil
