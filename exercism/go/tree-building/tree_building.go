@@ -44,11 +44,7 @@ func Build(records []Record) (*Node, error) {
 			continue
 		}
 
-		if _, ok := mappers[record.Parent]; !ok {
-			mappers[record.Parent] = &Node{ID: record.Parent, Children: []*Node{mappers[record.ID]}}
-		} else {
-			mappers[record.Parent].Children = append(mappers[record.Parent].Children, mappers[record.ID])
-		}
+		mappers[record.Parent].Children = append(mappers[record.Parent].Children, mappers[record.ID])
 	}
 
 	return mappers[0], nil
