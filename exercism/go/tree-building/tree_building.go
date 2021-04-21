@@ -16,13 +16,8 @@ type Node struct {
 	Children []*Node
 }
 
-// declare mappers to be usable across functions
-var mappers map[int]*Node
-
 // Build stitches together the node tree
 func Build(records []Record) (*Node, error) {
-	mappers = make(map[int]*Node)
-
 	if len(records) == 0 {
 		return nil, nil
 	}
@@ -31,20 +26,19 @@ func Build(records []Record) (*Node, error) {
 		return records[i].ID < records[j].ID
 	})
 
-	for idx, record := range records {
-		if record.ID != idx || record.Parent > record.ID || record.ID > 0 && record.Parent == record.ID {
-			return nil, fmt.Errorf("not in sequence or has bad parent: %v", record)
+	mappers := map[int]*Node{}
+	for i, r := range records {
+		if r.ID != i || r.Parent > r.ID || r.ID > 0 && r.Parent == r.ID {
+			return nil, fmt.Errorf("not in sequence or has bad parent: %v", r)
 		}
 
-		if _, ok := mappers[record.ID]; !ok {
-			mappers[record.ID] = &Node{ID: record.ID}
+		if _, ok := mappers[r.ID]; !ok {
+			mappers[r.ID] = &Node{ID: r.ID}
 		}
 
-		if record.ID == 0 {
-			continue
+		if r.ID != 0 {
+			mappers[r.Parent].Children = append(mappers[r.Parent].Children, mappers[r.ID])
 		}
-
-		mappers[record.Parent].Children = append(mappers[record.Parent].Children, mappers[record.ID])
 	}
 
 	return mappers[0], nil
