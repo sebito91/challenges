@@ -26,20 +26,18 @@ func Build(records []Record) (*Node, error) {
 		return records[i].ID < records[j].ID
 	})
 
-	mappers := map[int]*Node{}
+	nodes := map[int]*Node{}
 	for i, r := range records {
 		if r.ID != i || r.Parent > r.ID || r.ID > 0 && r.Parent == r.ID {
 			return nil, fmt.Errorf("not in sequence or has bad parent: %v", r)
 		}
 
-		if _, ok := mappers[r.ID]; !ok {
-			mappers[r.ID] = &Node{ID: r.ID}
-		}
+		nodes[r.ID] = &Node{ID: r.ID}
 
 		if r.ID != 0 {
-			mappers[r.Parent].Children = append(mappers[r.Parent].Children, mappers[r.ID])
+			nodes[r.Parent].Children = append(nodes[r.Parent].Children, nodes[r.ID])
 		}
 	}
 
-	return mappers[0], nil
+	return nodes[0], nil
 }
