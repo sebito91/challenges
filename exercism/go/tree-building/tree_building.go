@@ -18,10 +18,6 @@ type Node struct {
 
 // Build stitches together the node tree
 func Build(records []Record) (*Node, error) {
-	if len(records) == 0 {
-		return nil, nil
-	}
-
 	sort.Slice(records, func(i, j int) bool {
 		return records[i].ID < records[j].ID
 	})
