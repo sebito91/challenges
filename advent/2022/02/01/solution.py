@@ -43,24 +43,36 @@ def calc_score(data=None):
     for each in data:
         p1, p2 = each.split()
         total_score += SCORES[p2]
-        print(f"     p1: {p1}, p2: {p2}, p2_score: {SCORES[p2]}, total_score: {total_score}")
+        print(
+            f"     p1: {p1}, p2: {p2}, p2_score: {SCORES[p2]}, total_score: {total_score}"
+        )
 
         # draw case
         if SCORES[p2] == SCORES[p1]:
             total_score += POINTS["draw"]
-            print(f"DRAW p1: {p1}, p2: {p2}, points: {POINTS['draw']}, total_score: {total_score}")
+            print(
+                f"DRAW p1: {p1}, p2: {p2}, points: {POINTS['draw']}, total_score: {total_score}"
+            )
         elif p2 == "X" and p1 == "C":
             total_score += POINTS["win"]
-            print(f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}")
+            print(
+                f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}"
+            )
         elif p2 == "Y" and p1 == "A":
             total_score += POINTS["win"]
-            print(f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}")
+            print(
+                f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}"
+            )
         elif p2 == "Z" and p1 == "B":
             total_score += POINTS["win"]
-            print(f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}")
+            print(
+                f"WIN  p1: {p1}, p2: {p2}, points: {POINTS['win']}, total_score: {total_score}"
+            )
         else:
             total_score += POINTS["lose"]
-            print(f"LOSE p1: {p1}, p2: {p2}, points: {POINTS['lose']}, total_score: {total_score}")
+            print(
+                f"LOSE p1: {p1}, p2: {p2}, points: {POINTS['lose']}, total_score: {total_score}"
+            )
 
     return total_score
 

@@ -40,7 +40,7 @@ def doit():
         elves_struct[num_elves]["total_cals"] += int(cals)
         elves_struct[num_elves]["cals"].append(cals)
 
-    elves_sorted = sorted(elves_struct.items(), key=lambda x: x[1]['total_cals'])
+    elves_sorted = sorted(elves_struct.items(), key=lambda x: x[1]["total_cals"])
     print(f"elves: {sum([y['total_cals'] for x, y in elves_sorted[-3:]])}")
 
 
