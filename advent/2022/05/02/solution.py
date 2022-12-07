@@ -1,9 +1,9 @@
 #! /usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-Module for 20221205, problem 01.
+Module for 20221205, problem 02.
 
-https://adventofcode.com/2022/day/5
+https://adventofcode.com/2022/day/5#part2
 """
 
 from pathlib import Path
@@ -42,7 +42,7 @@ def calc_score(data=None):
             f"line: {line}, count: {count}, src: {src} {piles[src][-count:]}, dst: {dst}"
         )
         to_move = piles[src][-count:]
-        to_move.reverse()
+        #        to_move.reverse()
 
         piles[dst] += to_move
         del piles[src][-count:]
