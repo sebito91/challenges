@@ -15,24 +15,24 @@ def rebase(input_base: int, digits: list, output_base: int) -> list:
     if input_base < 2:
         raise ValueError("input base must be >= 2")
 
-    if not digits or all(digit == 0 for digit in digits):
+    if output_base < 2:
+        raise ValueError("output base must be >= 2")
+
+    if sum(digits) == 0:
         return [0]
 
-    if not all((int(digit) < input_base and int(digit) >= 0) for digit in digits):
+    if not all(0 <= digit < input_base for digit in digits):
         raise ValueError("all digits must satisfy 0 <= d < input base")
 
     # convert to decimal
-    input_sum = sum(digit[0] * pow(input_base, digit[1]) for digit in zip(digits[-1::-1], list(range(len(digits)))))
-
-    if output_base < 2:
-        raise ValueError("output base must be >= 2")
+    input_sum = sum(digit * pow(input_base, idx) for idx, digit in enumerate(digits[::-1]))
 
     # convert from decimal
     quotient, remainder = input_sum, 0
     output_digits = []
 
     while quotient != 0:
-        quotient, remainder = quotient // output_base, quotient % output_base
+        quotient, remainder = divmod(quotient, output_base)
         output_digits.append(remainder)
 
-    return output_digits[-1::-1]
+    return output_digits[::-1]
