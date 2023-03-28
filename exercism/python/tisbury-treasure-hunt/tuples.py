@@ -61,4 +61,4 @@ def clean_up(combined_record_group: tuple) -> str:
     for record_group in combined_record_group:
         output.append(f"{(record_group[0], record_group[2], record_group[3], record_group[4])}")
 
-    return '\n'.join(f"{record}" for record in output) + "\n"
+    return "\n".join(f"{record}" for record in output) + "\n"
