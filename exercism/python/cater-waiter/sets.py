@@ -69,7 +69,10 @@ def categorize_dish(dish_name: str, dish_ingredients: list) -> str:
     if ingredients.issubset(KETO):
         return f"{dish_name}: KETO"
 
-    return f"{dish_name}: OMNIVORE"
+    if ingredients.issubset(OMNIVORE):
+        return f"{dish_name}: OMNIVORE"
+
+    return f"{dish_name}: UNKNOWN"
 
 
 def tag_special_ingredients(dish: tuple) -> tuple:
