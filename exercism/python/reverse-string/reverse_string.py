@@ -7,4 +7,4 @@ def reverse(text: str) -> str:
     :param text: str - input value to reverse
     :return: str - reversed version of the input `text`
     """
-    return f"{text[::-1]}"
+    return text[::-1]
