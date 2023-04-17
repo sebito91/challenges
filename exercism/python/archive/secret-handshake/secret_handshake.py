@@ -1,23 +1,27 @@
-# -*- coding: utf-8 -*-
-"""Module to return the secret handshake."""
+"""Module to test out the secret handshake encoding."""
 
-from __future__ import unicode_literals
 
-_shakes = {
-    1: "wink",
-    10: "double blink",
-    100: "close your eyes",
-    1000: "jump",
+def commands(binary_str: str) -> list[str]:
+    """Calculate the secret handshake instructions and return the decoded list.
+
+    :param binary_str: str - input string of binary "digit" to decode
+    :return: list[str] - action sequence as decoded from the digit
+    """
+
+    actions = {
+        0: "wink",
+        1: "double blink",
+        2: "close your eyes",
+        3: "jump",
+        4: "reverse",
     }
 
+    output = []
+    for idx, elem in enumerate(binary_str[::-1]):
+        if elem == "1" and idx < 4:
+            output.append(actions.get(idx, ""))
 
-def handshake(num):
-    """Given a decimal input, return the sequence of stuff."""
-    print "DEBUG -- num is: {}".format(num)
+        if elem == "1" and idx == 4:
+            output = output[::-1]
 
-
-def code(seq):
-    """Given a sequence of stuff, return the code."""
-    test = zip(_shakes.values(), _shakes.keys())
-
-    print "DEBUG -- code is: {}, test: {}".format(seq, test)
+    return output

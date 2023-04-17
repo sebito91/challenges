@@ -1,47 +1,94 @@
 # Secret Handshake
 
-Given a decimal number, convert it to the appropriate sequence of events for a secret handshake.
+Welcome to Secret Handshake on Exercism's Python Track.
+If you need help running the tests or submitting your code, check out `HELP.md`.
 
-> There are 10 types of people in the world: Those who understand
-> binary, and those who don't.
+## Introduction
 
-You and your fellow cohort of those in the "know" when it comes to
-binary decide to come up with a secret "handshake".
+You are starting a secret coding club with some friends and friends-of-friends.
+Not everyone knows each other, so you and your friends have decided to create a secret handshake that you can use to recognize that someone is a member.
+You don't want anyone who isn't in the know to be able to crack the code.
 
-```
-1 = wink
-10 = double blink
-100 = close your eyes
-1000 = jump
+You've designed the code so that one person says a number between 1 and 31, and the other person turns it into a series of actions.
 
+## Instructions
 
+Your task is to convert a number between 1 and 31 to a sequence of actions in the secret handshake.
+
+The sequence of actions is chosen by looking at the rightmost five digits of the number once it's been converted to binary.
+Start at the right-most digit and move left.
+
+The actions for each number place are:
+
+```plaintext
+00001 = wink
+00010 = double blink
+00100 = close your eyes
+01000 = jump
 10000 = Reverse the order of the operations in the secret handshake.
 ```
 
-Here's a couple of examples:
+Let's use the number `9` as an example:
 
-Given the input 3, the function would return the array
-["wink", "double blink"] because 3 is 11 in binary.
+- 9 in binary is `1001`.
+- The digit that is farthest to the right is 1, so the first action is `wink`.
+- Going left, the next digit is 0, so there is no double-blink.
+- Going left again, the next digit is 0, so you leave your eyes open.
+- Going left again, the next digit is 1, so you jump.
 
-Given the input 19, the function would return the array
-["double blink", "wink"] because 19 is 10011 in binary.
-Notice that the addition of 16 (10000 in binary)
-has caused the array to be reversed.
+That was the last digit, so the final code is:
 
-### Submitting Exercises
+```plaintext
+wink, jump
+```
 
-Note that, when trying to submit an exercise, make sure the solution is in the `exercism/python/<exerciseName>` directory.
+Given the number 26, which is `11010` in binary, we get the following actions:
 
-For example, if you're submitting `bob.py` for the Bob exercise, the submit command would be something like `exercism submit <path_to_exercism_dir>/python/bob/bob.py`.
+- double blink
+- jump
+- reverse actions
 
+The secret handshake for 26 is therefore:
 
-For more detailed information about running tests, code style and linting,
-please see the [help page](http://exercism.io/languages/python).
+```plaintext
+jump, double blink
+```
+
+~~~~exercism/note
+If you aren't sure what binary is or how it works, check out [this binary tutorial][intro-to-binary].
+[intro-to-binary]: https://medium.com/basecs/bits-bytes-building-with-binary-13cb4289aafa
+~~~~
+
+To keep things simple (and to let you focus on the important part of this exercise), your function will receive its inputs as binary strings:
+
+```
+>>> commands("00011")
+["wink", "double blink"]
+```
 
 ## Source
 
-Bert, in Mary Poppins [http://www.imdb.com/character/ch0011238/quotes](http://www.imdb.com/character/ch0011238/quotes)
+### Created by
 
-## Submitting Incomplete Problems
-It's possible to submit an incomplete solution so you can see how others have completed the exercise.
+- @betegelse
 
+### Contributed to by
+
+- @behrtam
+- @cmccandless
+- @crsmi
+- @Dog
+- @Grociu
+- @ikhadykin
+- @kytrinyx
+- @N-Parsons
+- @pheanex
+- @sjakobi
+- @sjwarner-bp
+- @subkrish
+- @tqa236
+- @yawpitch
+
+### Based on
+
+Bert, in Mary Poppins - https://www.imdb.com/title/tt0058331/quotes/qt0437047
