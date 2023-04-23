@@ -1,36 +1,20 @@
 """Module to recite the Twelve Days of Christmas song."""
 
 
-DAYS = {
-    1: "first",
-    2: "second",
-    3: "third",
-    4: "fourth",
-    5: "fifth",
-    6: "sixth",
-    7: "seventh",
-    8: "eighth",
-    9: "ninth",
-    10: "tenth",
-    11: "eleventh",
-    12: "twelfth",
+LYRICS = {
+    1: ("first", "a Partridge in a Pear Tree"),
+    2: ("second", "two Turtle Doves"),
+    3: ("third", "three French Hens"),
+    4: ("fourth", "four Calling Birds"),
+    5: ("fifth", "five Gold Rings"),
+    6: ("sixth", "six Geese-a-Laying"),
+    7: ("seventh", "seven Swans-a-Swimming"),
+    8: ("eighth", "eight Maids-a-Milking"),
+    9: ("ninth", "nine Ladies Dancing"),
+    10: ("tenth", "ten Lords-a-Leaping"),
+    11: ("eleventh", "eleven Pipers Piping"),
+    12: ("twelfth", "twelve Drummers Drumming"),
 }
-
-
-LYRICS = [
-    "a Partridge in a Pear Tree",
-    "two Turtle Doves",
-    "three French Hens",
-    "four Calling Birds",
-    "five Gold Rings",
-    "six Geese-a-Laying",
-    "seven Swans-a-Swimming",
-    "eight Maids-a-Milking",
-    "nine Ladies Dancing",
-    "ten Lords-a-Leaping",
-    "eleven Pipers Piping",
-    "twelve Drummers Drumming",
-]
 
 
 def recite(start_verse: int, end_verse: int) -> list[str]:
@@ -40,15 +24,15 @@ def recite(start_verse: int, end_verse: int) -> list[str]:
     :param end_verse: int - end verse number
     :return: list[str] - series of verses for the song between `start_verse` and `end_verse`.
     """
-    start_line = f"On the {DAYS[start_verse]} day of Christmas my true love gave to me: "
+    start_line = f"On the {LYRICS[start_verse][0]} day of Christmas my true love gave to me: "
 
-    for verse in range(start_verse - 1, 0, -1):
-        start_line += f"{LYRICS[verse]}, "
+    for verse in range(start_verse, 1, -1):
+        start_line += f"{LYRICS[verse][1]}, "
 
     if start_verse != 1:
         start_line += "and "
 
-    start_line += f"{LYRICS[0]}."
+    start_line += f"{LYRICS[1][1]}."
     if start_verse == end_verse:
         return [start_line]
 
